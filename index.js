@@ -2,6 +2,8 @@ const express = require("express");
 
 const app = express();
 
+app.use(express.json());
+
 let notes = [
   {
     id: "1",
@@ -34,6 +36,8 @@ app.get("/api/notes", (req, res) => {
   res.json(notes);
 });
 
+// this is how the get works
+
 app.get("/api/notes/:id", (req, res) => {
   console.log(req.params);
   const id = req.params.id;
@@ -43,6 +47,19 @@ app.get("/api/notes/:id", (req, res) => {
   } else {
     res.status(404).end();
   }
+});
+
+// let's see how delete works
+app.delete("/api/notes/:id", (req, res) => {
+  const id = req.params.id;
+  notes = notes.filter((note) => note.id != id);
+  res.status(204).end();
+});
+
+app.post("/api/notes", (req, res) => {
+  const note = req.body;
+  console.log(note);
+  res.json(notes);
 });
 
 const port = 3001;
